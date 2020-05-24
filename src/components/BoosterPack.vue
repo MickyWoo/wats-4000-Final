@@ -9,11 +9,11 @@
       <select v-model="selected">
         <!--  https://vuejs.org/v2/guide/forms.html -->
        
-        <option v-for="setChosen in setsAvaliable" :key="setChosen" v-bind:value="setsAvaliable.value">
+        <option v-for="setChosen in setsAvaliable" :key="setChosen" v-bind:value="setChosen.value">
             {{ setChosen.text }}
    </option>
       </select>
-      <span>Selected: {{ selected }}</span>
+      <span>     Selected:  {{ selected }} </span>
       <button type="submit"> Open Booster Pack </button>
 </form>
   <!-- end booster -->
@@ -36,7 +36,7 @@ export default {
     return {
       results: null,
       errors: [],
-      selected: "none",
+      selected: "",
         setsAvaliable: [
       { text: 'Base Set', value: 'base1'},
        { text: 'Jungle', value: 'base2' },
@@ -51,8 +51,21 @@ export default {
 
   methods: {
     GetCard: function() {
-      axios.get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`, {
-          //https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
+      axios.get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
+
+        .then(response => {
+      this.results = response.data
+        })
+
+  
+        .catch(error => {
+          this.errors.push(error);
+        })
+     }
+    }
+  }
+
+         //https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
           /* basically i have to import a diff vue specifically for Booster of 11 Cards. to grab 7 common, 3 cummon and 1 Rare or higher. and to do that 
        i need it via the get from rarity search of the "set" selected which is by "set Code" based on API. 
        a random number selector, and they have and ID # attached when retreiving so i can maybe based it off that specifically named "number" 
@@ -84,21 +97,11 @@ export default {
 
 
        */
-
-          params: {
-          
-          }
-        })
-        .then(response => {
-          this.results = response.data;
-        })
-        .catch(error => {
-          this.errors.push(error);
-        });
-    }
-  }
-};
 </script>
+
+   
+
+       
 
 <style scoped>
 </style>
