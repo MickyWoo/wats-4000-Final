@@ -4,28 +4,36 @@
       <h1> Pokemon TCG Online Pack Simulator </h1>
 
       <p> Select a Set you would like to simulate a random 11 Card Booster Pack </p>
-<form v-on:submit.prevent="getCard">
+      <form v-on:submit.prevent="getCard">
 
-      <select v-model="selected">
-        <!--  https://vuejs.org/v2/guide/forms.html -->
-       
-        <option v-for="setChosen in setsAvaliable" :key="setChosen" v-bind:value="setChosen.value">
+        <select v-model="selected">
+          <!--  https://vuejs.org/v2/guide/forms.html -->
+
+          <option
+            v-for="setChosen in setsAvaliable"
+            :key="setChosen"
+            v-bind:value="setChosen.value"
+          >
             {{ setChosen.text }}
-   </option>
-      </select>
-      <span>     Selected:  {{ selected }} </span>
-      <button type="submit"> Open Booster Pack </button>
-</form>
-  <!-- end booster -->
-  </div>
+          </option>
+        </select>
+        <span> Selected: {{ selected }} </span>
+        <button type="submit"> Open Booster Pack </button>
+      </form>
+      <!-- end booster -->
+    </div>
+
+    <div class="displayCards" v-for="card in results.cards" :key="card.id" >
+      
+          <img src={card.imageUrl}  alt={card.name} > 
+       </div>
 
   </div>
 
 </template>
 
 <script>
-   import axios from 'axios';
-
+import axios from "axios";
 
 export default {
   name: "BoosterPack",
@@ -37,36 +45,37 @@ export default {
       results: null,
       errors: [],
       selected: "",
-        setsAvaliable: [
-      { text: 'Base Set', value: 'base1'},
-       { text: 'Jungle', value: 'base2' },
-        { text: 'Fossile', value: 'base3' },
-         { text: 'Team Rocket', value: 'base5' },
-          { text: 'Gym Heros', value: 'gym1' },
-           { text: 'Gym Challenge', value: 'gym2' },
-
-        ]
-    }
+      setsAvaliable: [
+        { text: "Base Set", value: "base1" },
+        { text: "Jungle", value: "base2" },
+        { text: "Fossile", value: "base3" },
+        { text: "Team Rocket", value: "base5" },
+        { text: "Gym Heros", value: "gym1" },
+        { text: "Gym Challenge", value: "gym2" }
+      ]
+    };
   },
 
   methods: {
     GetCard: function() {
-      axios.get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
+      axios
+        .get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
+        
 
         .then(response => {
-      this.results = response.data
+          console.log("i found some errors ");
+          this.results = response.data;
         })
 
-  
         .catch(error => {
           this.errors.push(error);
-        })
-     }
+        });
     }
   }
+};
 
-         //https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
-          /* basically i have to import a diff vue specifically for Booster of 11 Cards. to grab 7 common, 3 cummon and 1 Rare or higher. and to do that 
+//https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
+/* basically i have to import a diff vue specifically for Booster of 11 Cards. to grab 7 common, 3 cummon and 1 Rare or higher. and to do that 
        i need it via the get from rarity search of the "set" selected which is by "set Code" based on API. 
        a random number selector, and they have and ID # attached when retreiving so i can maybe based it off that specifically named "number" 
        
