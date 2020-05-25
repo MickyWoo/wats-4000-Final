@@ -23,9 +23,11 @@
       <!-- end booster -->
     </div>
 
-    <div class="displayCards" v-for="card in results.cards" :key="card.id" >
+    <div class="displayCards" v-for="card in results.cards" :key="card.id"  >
+    
       
-          <img src={card.imageUrl}  alt={card.name} > 
+          <img :src="card.imageUrl"  :alt="card.name" > 
+          <!-- i need to v-bind to apply images from results -->
        </div>
 
   </div>
@@ -42,7 +44,7 @@ export default {
   },
   data() {
     return {
-      results: null,
+      results: [],
       errors: [],
       selected: "",
       setsAvaliable: [
@@ -57,7 +59,7 @@ export default {
   },
 
   methods: {
-    GetCard: function() {
+    getCard: function() {
       axios
         .get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
         
@@ -113,4 +115,10 @@ export default {
        
 
 <style scoped>
+
+.displayCards {
+  display: inline;
+  margin: 10px;
+ 
+}
 </style>
