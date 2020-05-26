@@ -25,7 +25,7 @@
 
     <div
       class="displayCards"
-      v-for="card in booster.cards"
+      v-for="card in booster"
       :key="card.id"
     >
 
@@ -74,21 +74,7 @@ export default {
   },
 
   methods: {
-    random: function(){
-        for ( commonArrayNumber = 0,  commonArrayNumber < 7, commonArrayNumber++) {
-
-           var commonArrayNumber = Math.floor((Math.random() * commonCard.length)),
-
-      } for (randomUncommon = 0, randomUncommon < 3, randomUncommon++) {
-
-           var randomUncommon = Math.floor((Math.random() * uncommonCard.length)),
-
-      } for (randomRare = 0, randomRare < 1, randomRare++)
-
-           var randomRare = Math.floor((Math.random() * RareCard.length))
-      }
-    },
-
+  
 
     getCard: function() {
       axios
@@ -97,24 +83,55 @@ export default {
         )
 
 
+
         .then(response => {
           this.results = response.data;
           // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
           this.commonCard =  this.results.cards.filter(c => c.rarity === "Common");
           this.uncommonCard =  this.results.cards.filter(c => c.rarity === "Uncommon");
           this.rareCard =  this.results.cards.filter(c => c.rarity == "Rare" );
-        
+
+                     
+
+ //  this.booster = (this.commonCard[randomCommon], this.uncommonCard[randomUncommon], this.rareCard[randomRare] );
+
+        for ( let C = 0;   C < 7;  C++) {
+
+         
+           var  randomCommon = Math.floor((Math.random() * this.commonCard.length))
+           this.booster.push(this.commonCard[randomCommon]);
+
+      } for (let UC = 0; UC < 3; UC++) {
+
+           var randomUncommon = Math.floor((Math.random() * this.uncommonCard.length))
+            this.booster.push(this.uncommonCard[randomUncommon]);
+
+      } for (let R = 0; R < 1; R++) {
+
+           var randomRare = Math.floor((Math.random() * this.rareCard.length))
+               this.booster.push(this.rareCard[randomRare]);
+      }
       
-          console.log(this.commonCard)
+     
+
+          //taking all the random generated numbers 7 common,3uncommon, 1 rare or higher and placing them into each RARITY array to pull Amount into Booster Array 
+          // and so i would pull 11 cards total and each # would get pulled and called by corresponding ID which is unique to each card. 
+          // i push to fill in the spots booster [Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,  Runcommon,Runcommon,Runcommon,   Rrare] < and then fill each random number with rarity
+
+ 
         
         })
+     
+
 
         .catch(error => {
           this.errors.push(error);
         });
+    },
+
     }
   }
-};
+
 
 //https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
 /* basically i have to import a diff vue specifically for Booster of 11 Cards. to grab 7 common, 3 cummon and 1 Rare or higher. and to do that 
