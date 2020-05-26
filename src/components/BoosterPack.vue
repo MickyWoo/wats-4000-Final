@@ -4,6 +4,8 @@
       <h1> Pokemon TCG Online Pack Simulator </h1>
 
       <p> Select a Set you would like to simulate a random 11 Card Booster Pack </p>
+      <br>
+      <p> Each pack is set to have 7 common, 3 uncommon, and 1 Rare As standard Booster Packs Contained. </p>
       <form v-on:submit.prevent="getCard">
 
         <select v-model="selected">
@@ -11,7 +13,7 @@
 
           <option
             v-for="setChosen in setsAvaliable"
-            :key="setChosen"
+            :key="setChosen.id"
             v-bind:value="setChosen.value"
           >
             {{ setChosen.text }}
@@ -77,6 +79,9 @@ export default {
   
 
     getCard: function() {
+
+      this.booster = []; // reset booster to empty slate for new pack opening.
+
       axios
         .get(
           `https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`
@@ -111,18 +116,11 @@ export default {
            var randomRare = Math.floor((Math.random() * this.rareCard.length))
                this.booster.push(this.rareCard[randomRare]);
       }
-      
-     
-
           //taking all the random generated numbers 7 common,3uncommon, 1 rare or higher and placing them into each RARITY array to pull Amount into Booster Array 
           // and so i would pull 11 cards total and each # would get pulled and called by corresponding ID which is unique to each card. 
           // i push to fill in the spots booster [Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,  Runcommon,Runcommon,Runcommon,   Rrare] < and then fill each random number with rarity
 
- 
-        
         })
-     
-
 
         .catch(error => {
           this.errors.push(error);
@@ -132,71 +130,9 @@ export default {
     }
   }
 
-
-//https://api.pokemontcg.io/v1/sets/xy1 may have to use ths one
-/* basically i have to import a diff vue specifically for Booster of 11 Cards. to grab 7 common, 3 cummon and 1 Rare or higher. and to do that 
-       i need it via the get from rarity search of the "set" selected which is by "set Code" based on API. 
-       a random number selector, and they have and ID # attached when retreiving so i can maybe based it off that specifically named "number" 
-       
-      based on the set chosen, the response data is in Array under "cards" and i want the "rarity" so i just select that which i think is cards.rarity="common"
-
-
-      so the thought is that i have to split this up into 3 views or methods 
-      1st i need to grab the user input of SELECTED set  (which is a code id)
-      https://api.pokemontcg.io/v1/cards?setCode=`${SelectedSet}`  
-
-      and then another method that take that code ID and take the loaded states 
-      which i should have Rarity: [],
-      number:(),
-      so can grab 7 common, 3 cummon and 1 Rare or higher
-      and the Number which is to allow number .random?
-
-      and then i push.rarity:common[6].random???? something like that..... or i have to find common within it and set it into a 
-      common:[] array and then choose random from that
-      
-      so i have 3 new arrays 
-      common:[]
-      uncommon:[]
-      rare:[]
-
-      <CardViewer v-for="item in results.cards" :key="item.id" :name="item.name" :image="item.imageUrl"></CardViewer>
-
-      so item.rarity.common.shuffle[6]???? if i wanted to choose 7 random common cards
-
-
-        /*https://api.pokemontcg.io/v1/cards?setCode=base1&pageSize=7&rarity=common&random=true
-        so i have 4 parameters there 
-        setCode = set chosen...
-        page size = card amount = 7
-        rarity = common 
-        random = true isnt working
-    // shuffleDeck: function(results) {
-    //   var currentIndex = results.length,
-    //     temporaryValue,
-    //     randomIndex;
-
-    //   // While there remain elements to shuffle...
-    //   while (0 !== currentIndex) {
-    //     // Pick a remaining element...
-    //     randomIndex = Math.floor(Math.random() * currentIndex);
-    //     currentIndex -= 1;
-
-    //     // And swap it with the current element.
-    //     temporaryValue = results[currentIndex];
-    //     results[currentIndex] = results[randomIndex];
-    //     results[randomIndex] = temporaryValue;
-    //   }
-
-    //   return results;
-    // },
-        
-
-       */
 </script>
 
-   
-
-       
+ 
 
 <style scoped>
 .displayCards {
