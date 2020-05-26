@@ -23,12 +23,18 @@
       <!-- end booster -->
     </div>
 
-    <div class="displayCards" v-for="card in results.cards" :key="card.id"  >
-    
-      
-          <img :src="card.imageUrl"  :alt="card.name" > 
-          <!-- i need to v-bind to apply images from results -->
-       </div>
+    <div
+      class="displayCards"
+      v-for="card in booster.cards"
+      :key="card.id"
+    >
+
+      <img
+        :src="card.imageUrl"
+        :alt="card.name"
+      >
+      <!-- i need to v-bind to apply images from results -->
+    </div>
 
   </div>
 
@@ -37,6 +43,8 @@
 <script>
 import axios from "axios";
 
+
+
 export default {
   name: "BoosterPack",
   components: {
@@ -44,7 +52,14 @@ export default {
   },
   data() {
     return {
+      //results = full list of cards
       results: [],
+      //3 sepearte arrays to contain the rarity 
+      commonCard: [],
+      uncommonCard:[],
+      rareCard: [],
+      // a 4th array to assort random from each of the 3 assorted arrays by Rarity
+      booster:[],
       errors: [],
       selected: "",
       setsAvaliable: [
@@ -59,14 +74,39 @@ export default {
   },
 
   methods: {
+    random: function(){
+        for ( commonArrayNumber = 0,  commonArrayNumber < 7, commonArrayNumber++) {
+
+           var commonArrayNumber = Math.floor((Math.random() * commonCard.length)),
+
+      } for (randomUncommon = 0, randomUncommon < 3, randomUncommon++) {
+
+           var randomUncommon = Math.floor((Math.random() * uncommonCard.length)),
+
+      } for (randomRare = 0, randomRare < 1, randomRare++)
+
+           var randomRare = Math.floor((Math.random() * RareCard.length))
+      }
+    },
+
+
     getCard: function() {
       axios
-        .get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
-        
+        .get(
+          `https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`
+        )
+
 
         .then(response => {
-          console.log("i found some errors ");
           this.results = response.data;
+          // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
+          this.commonCard =  this.results.cards.filter(c => c.rarity === "Common");
+          this.uncommonCard =  this.results.cards.filter(c => c.rarity === "Uncommon");
+          this.rareCard =  this.results.cards.filter(c => c.rarity == "Rare" );
+        
+      
+          console.log(this.commonCard)
+        
         })
 
         .catch(error => {
@@ -107,6 +147,33 @@ export default {
       so item.rarity.common.shuffle[6]???? if i wanted to choose 7 random common cards
 
 
+        /*https://api.pokemontcg.io/v1/cards?setCode=base1&pageSize=7&rarity=common&random=true
+        so i have 4 parameters there 
+        setCode = set chosen...
+        page size = card amount = 7
+        rarity = common 
+        random = true isnt working
+    // shuffleDeck: function(results) {
+    //   var currentIndex = results.length,
+    //     temporaryValue,
+    //     randomIndex;
+
+    //   // While there remain elements to shuffle...
+    //   while (0 !== currentIndex) {
+    //     // Pick a remaining element...
+    //     randomIndex = Math.floor(Math.random() * currentIndex);
+    //     currentIndex -= 1;
+
+    //     // And swap it with the current element.
+    //     temporaryValue = results[currentIndex];
+    //     results[currentIndex] = results[randomIndex];
+    //     results[randomIndex] = temporaryValue;
+    //   }
+
+    //   return results;
+    // },
+        
+
        */
 </script>
 
@@ -115,10 +182,8 @@ export default {
        
 
 <style scoped>
-
 .displayCards {
   display: inline;
   margin: 10px;
- 
 }
 </style>
