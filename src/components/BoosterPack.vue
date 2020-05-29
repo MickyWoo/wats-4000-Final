@@ -56,7 +56,7 @@ export default {
     return {
       //results = full list of cards
       results: [],
-      //3 sepearte arrays to contain the rarity 
+      //3 sepearte arrays to contain each rarity 
       commonCard: [],
       uncommonCard:[],
       rareCard: [],
