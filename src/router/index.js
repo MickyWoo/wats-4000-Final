@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomePage from '@/components/HomePage.vue'
-import BoosterPack from '@/components/BoosterPack.vue'
-import cardSearch from '@/components/cardSearch.vue'
+import HomePage from '@/views/HomePage.vue'
+import BoosterPack from '@/views/BoosterPack.vue'
+import cardSearch from '@/views/cardSearch.vue'
 
 Vue.use(VueRouter)
 

@@ -8,6 +8,8 @@
       <p> Each pack is set to have 7 common, 3 uncommon, and 1 Rare As standard Booster Packs Contained. </p>
       <form v-on:submit.prevent="getCard">
 
+        <loading-spinner v-if="showLoading"></loading-spinner>
+
         <select v-model="selected">
           <!--  https://vuejs.org/v2/guide/forms.html -->
 
@@ -44,13 +46,14 @@
 
 <script>
 import axios from "axios";
+import loadingSpinner from '@/components/loadingSpinner.vue';
 
 
 
 export default {
   name: "BoosterPack",
   components: {
-    // loading: PokeBallSpinner
+     'loading-spinner': loadingSpinner,
   },
   data() {
     return {
@@ -62,6 +65,8 @@ export default {
       rareCard: [],
       // a 4th array to assort random from each of the 3 assorted arrays by Rarity
       booster:[],
+
+      showLoading: false,
       errors: [],
       selected: "",
       setsAvaliable: [
@@ -80,6 +85,7 @@ export default {
 
     getCard: function() {
 
+      this.showLoading =  true;
       this.booster = []; // reset booster to empty slate for new pack opening.
 
       axios
@@ -95,6 +101,8 @@ export default {
           this.commonCard =  this.results.cards.filter(c => c.rarity === "Common");
           this.uncommonCard =  this.results.cards.filter(c => c.rarity === "Uncommon");
           this.rareCard =  this.results.cards.filter(c => c.rarity == "Rare" );
+
+          this.showLoading = false;
 
                      
 
@@ -123,8 +131,11 @@ export default {
         })
 
         .catch(error => {
+
           this.errors.push(error);
+        
         });
+          this.showLoading = false;
     },
 
     }

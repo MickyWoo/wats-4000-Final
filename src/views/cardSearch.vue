@@ -69,14 +69,13 @@ export default {
 
 <style scoped>
 .displayCards{
- 
   display: inline;
   margin: 10px;
-   
-   transition: transform .5s ease;
+  
   
 }
-.displayCards:hover img{
+.displayCards:hover img{  /* https://w3bits.com/css-image-hover-zoom/ */
+     transition: transform .5s ease; 
      transform: scale(1.5);
       display: inline;
   margin: 10px;
