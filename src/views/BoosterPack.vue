@@ -97,14 +97,12 @@ export default {
 
         .then(response => {
           this.results = response.data;
+          this.showLoading = false;
+
           // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
           this.commonCard =  this.results.cards.filter(c => c.rarity === "Common");
           this.uncommonCard =  this.results.cards.filter(c => c.rarity === "Uncommon");
           this.rareCard =  this.results.cards.filter(c => c.rarity == "Rare" );
-
-          this.showLoading = false;
-
-                     
 
  //  this.booster = (this.commonCard[randomCommon], this.uncommonCard[randomUncommon], this.rareCard[randomRare] );
 
@@ -131,9 +129,7 @@ export default {
         })
 
         .catch(error => {
-
           this.errors.push(error);
-        
         });
           this.showLoading = false;
     },

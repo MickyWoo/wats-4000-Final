@@ -8,7 +8,8 @@
           placeholder="Squirtle"
         > <button type="submit">Go</button></p>
     </form>
-    <!-- <load-spinner v-if="showLoading"></load-spinner> -->
+  
+      <loading-spinner v-if="showLoading"></loading-spinner>
     <div
       class="displayCards"
       v-for="card in results.cards"
@@ -28,23 +29,27 @@
 
 <script>
 import axios from "axios";
+import loadingSpinner from '@/components/loadingSpinner.vue';
 
 export default {
   name: "cardSearch",
-  components: {},
+  components: {
+    'loading-spinner': loadingSpinner,
+  },
   data() {
     return {
       results: [],
       cardName: "",
-      //  showLoading: false,
+       showLoading: false,
       messages: [],
     };
   },
 
   methods: {
     getCard: function() {
-      //  this.results = [],  //reset
-      //   this.showLoader = true;
+     
+     this.showLoading = true;
+
       axios.get(`https://api.pokemontcg.io/v1/cards?`, {
         params: {
           name: this.cardName
@@ -52,14 +57,14 @@ export default {
       })
         .then(response => {
           this.results = response.data;
-          // this.showLoading = false;
+          this.showLoading = false;
         })
         .catch(error => {
           this.messages.push({
             type: "error",
             text: error.message
           });
-        //   this.showLoading = false;
+          this.showLoading = false;
         });
     }
   }

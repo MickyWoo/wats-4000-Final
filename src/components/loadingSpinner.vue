@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'loadingSpinner'
+  name: 'loadingSpinner' //https://loading.io/css/
 }
 </script>
 
