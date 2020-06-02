@@ -8,9 +8,7 @@
       <p> Each pack is set to have 7 common, 3 uncommon, and 1 Rare As standard Booster Packs Contained. </p>
       <form v-on:submit.prevent="getCard">
 
-        <loading-spinner v-if="showLoading"></loading-spinner>
-
-        <select v-model="selected">
+    <select v-model="selected">
           <!--  https://vuejs.org/v2/guide/forms.html -->
 
           <option
@@ -24,7 +22,10 @@
         <span> Selected: {{ selected }} </span>
         <button type="submit"> Open Booster Pack </button>
       </form>
-      <!-- end booster -->
+     <!-- end booster -->
+     
+       <loading-spinner v-if="showLoading"></loading-spinner>
+ 
     </div>
 
     <div
