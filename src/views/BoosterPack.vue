@@ -23,7 +23,7 @@
         <button type="submit"> Open Booster Pack </button>
       </form>
      <!-- end booster -->
-     
+
        <loading-spinner v-if="showLoading"></loading-spinner>
  
     </div>
@@ -98,7 +98,8 @@ export default {
 
         .then(response => {
           this.results = response.data;
-          this.showLoading = false;
+           this.showLoading = false;
+       
 
           // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
           this.commonCard =  this.results.cards.filter(c => c.rarity === "Common");
@@ -131,8 +132,9 @@ export default {
 
         .catch(error => {
           this.errors.push(error);
+           this.showLoading = false; // this.showLoading = false outside of the tryCatch block, so no matter what it is registering showLoading as false
         });
-          this.showLoading = false;
+         
     },
 
     }

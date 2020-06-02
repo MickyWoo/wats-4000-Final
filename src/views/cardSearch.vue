@@ -49,6 +49,7 @@ export default {
     getCard: function() {
      
      this.showLoading = true;
+     this.results= [],
 
       axios.get(`https://api.pokemontcg.io/v1/cards?`, {
         params: {

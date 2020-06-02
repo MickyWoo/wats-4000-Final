@@ -1,40 +1,79 @@
 <template>
     <div>
         <h2>Loading...</h2>
-   <div class="lds-dual-ring"></div>
+   <div class="wrapper">
+  <div class="pokeball">
+  </div>
+</div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'loadingSpinner' //https://loading.io/css/
+  name: 'loadingSpinner' // code from >> https://codepen.io/vinztt/pen/XjEyvk
 }
 </script>
 
-<style scoped>
-.lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
+<style scoped >
+*{
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
+
+
+
+.wrapper
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+   transform: translate(-50%, -50%);
+
+}
+
+.pokeball {
+  width: 60px;
+  height: 60px;
+  background-color:white;
+  border-radius: 50% ;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid;
+  animation: frames .8s  linear 0s infinite;
+}
+
+.pokeball:after{
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: red;
+  border-bottom: 4px solid;
+  top: -4px
+}
+
+.pokeball:before{
+  content: '';
+  position: absolute;
+  background-color: white;
+  width: 10px;
+  height:10px;
+  border: 4px solid;
   border-radius: 50%;
-  border: 6px solid #fff;
-  border-color: #fff transparent #fff transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
+  bottom: 18px;
+  right: 18px;
+  z-index: 1;
 }
-@keyframes lds-dual-ring {
+
+/* AnimationFrames */
+@keyframes frames{
   0% {
     transform: rotate(0deg);
   }
-  100% {
+  100%{
     transform: rotate(360deg);
   }
 }
-
 </style>
