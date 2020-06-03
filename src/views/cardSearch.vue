@@ -12,7 +12,10 @@
             type="text"
             v-model="cardName"
             placeholder="Squirtle"
-          > <button type="submit">Go</button></p>
+          >
+
+          <button type="submit">Go</button></p>
+
       </form>
 
       <loading-spinner v-if="showLoading"></loading-spinner>
@@ -66,13 +69,15 @@ export default {
   },
 
   methods: {
+
     getCard: function() {
       this.showLoading = true;
-      (this.results = []),
+      this.results = [];
+      if (this.cardName !== "") { // check if search has any text
         axios
           .get(`https://api.pokemontcg.io/v1/cards?`, {
             params: {
-              name: this.cardName === "" ? "" : `${this.cardName}`
+              name: this.cardName,
             }
           })
           .then(response => {
@@ -86,6 +91,12 @@ export default {
             });
             this.showLoading = false;
           });
+      } else {          // to notify user that input box is 'EMPTY'
+        this.results.cards = 0;
+         this.showLoading = false;
+      }
+    
+      
     }
   }
 };
