@@ -4,6 +4,7 @@ import HomePage from '@/views/HomePage.vue'
 import BoosterPack from '@/views/BoosterPack.vue'
 import cardSearch from '@/views/cardSearch.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [
