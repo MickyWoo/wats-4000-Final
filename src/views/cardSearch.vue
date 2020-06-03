@@ -6,7 +6,7 @@
 
     <div class="search">
 
-      <h> Pokemon Card Search </h>
+      <h1> Pokemon Card Search </h1>
       <form v-on:submit.prevent="getCard">
         <p>Enter card name: <input
             type="text"
@@ -27,17 +27,18 @@
           :alt="card.name"
         >
         <!-- i need to v-bind to apply images from results -->
-        <div
-          v-if="results && results.length === 0"
-          class="no-results"
-        >
-          <h2>No Words Found</h2>
-          <p>Please adjust your search to find more words.</p>
-        </div>
 
       </div>
 
     </div>
+    <div
+      v-if="results.cards < 1"
+      class="no-results"
+    >
+      <h2>No cards Found</h2>
+      <p>Please adjust your search</p>
+    </div>
+
   </div>
 </template>
 
@@ -65,15 +66,13 @@ export default {
   },
 
   methods: {
-
     getCard: function() {
       this.showLoading = true;
-      this.results = [],
-  
+      (this.results = []),
         axios
           .get(`https://api.pokemontcg.io/v1/cards?`, {
             params: {
-              name:this.cardName === "" ? "" : `${this.cardName}*`
+              name: this.cardName === "" ? "" : `${this.cardName}`
             }
           })
           .then(response => {
