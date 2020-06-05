@@ -172,7 +172,7 @@ export default {
   width: 250px;
 }
 .inspect img {
-  display: flex;
+  display: inline-block;
   align-content: center;
   margin: 10px;
   width: 400px;
