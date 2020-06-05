@@ -24,12 +24,16 @@
       </form>
       <!-- end booster -->
 
+       <router-link to="/cardSearch">Try Searching for A specific card</router-link>
+
       <loading-spinner v-if="showLoading"></loading-spinner>
 
     </div>
-    <div v-if='hideCards'>
+
+    <div v-if='displayCards'>
+           <transition-group name='fade' tag="div" appear> 
       <div
-        class="displayCards "
+        class="boosterCards "
         v-for="card in booster"
         :key="card.id"
       >
@@ -42,21 +46,26 @@
           :alt="card.name"
         >
       </div>
-         <!-- i need to v-bind to apply images from results -->
 
+         <!-- i need to v-bind to apply images from results -->
+  </transition-group>
     </div>
- 
+     
 
     <div
       class="inspect"
       v-if="selectedID.length != 0 "
     >
       <!-- needed the != because < or > caused some sort of false return on v-if statement -->
-      <button v-on:click="close">close</button>
+      <button class="closeButton" v-on:click="close">close</button>
+
+      <transition name="fade"  appear>
       <img
         :src="selectedID.card.imageUrlHiRes"
         :alt="selectedID.card.name"
       >
+      </transition>
+      
       <div> Name: {{selectedID.card.name}} </div>
       Set: {{selectedID.card.set}}
 
@@ -87,7 +96,7 @@ export default {
       booster: [],
 
       showLoading: false,
-      hideCards: true,
+      displayCards: true,
       errors: [],
       selected: "",
 
@@ -105,7 +114,7 @@ export default {
 
   methods: {
     close: function() { // when inspecting to hide rest of cards 
-      this.hideCards = true;
+      this.displayCards = true;
       this.selectedID = []
     },
     inspect: function(selectedID) {
@@ -113,7 +122,7 @@ export default {
         .get(`https://api.pokemontcg.io/v1/cards/${selectedID}`)
         .then(response => {
           this.selectedID = response.data;
-          this.hideCards = false;
+          this.displayCards = false;
         });
     },
 
@@ -170,11 +179,11 @@ export default {
  
 
 <style scoped>
-.displayCards {
+.boosterCards {
   display: inline-block;
   margin: 10px;
 }
-.displayCards img {
+.boosterCards img {
   display: inline-block;
   margin: 10px;
   width: 250px;
@@ -184,5 +193,16 @@ export default {
   align-content: center;
   margin: 10px;
   width: 400px;
+}
+.closeButton{
+  width: 5%;
+  height: 15%;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0s
 }
 </style>

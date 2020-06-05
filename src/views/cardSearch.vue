@@ -18,6 +18,8 @@
 
       </form>
 
+       <router-link to="/BoosterPack">Try the Booster Pack Simulator</router-link>
+
       <loading-spinner v-if="showLoading"></loading-spinner>
 
       <div class="displayCard" >
@@ -27,10 +29,6 @@
           v-for="card in results.cards"
           :key="card.id"
         >
-        
-
-
-         
           <img 
             :src="card.imageUrl"
             :alt="card.name"
