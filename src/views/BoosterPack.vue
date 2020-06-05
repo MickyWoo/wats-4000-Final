@@ -24,48 +24,57 @@
       </form>
       <!-- end booster -->
 
-       <router-link to="/cardSearch">Try Searching for A specific card</router-link>
+      <router-link to="/cardSearch">Try Searching for A specific card</router-link>
 
       <loading-spinner v-if="showLoading"></loading-spinner>
 
     </div>
 
     <div v-if='displayCards'>
-           <transition-group name='fade' tag="div" appear> 
-      <div
-        class="boosterCards "
-        v-for="card in booster"
-        :key="card.id"
+      <transition-group
+        name='fade'
+        tag="div"
+        appear
       >
-
-        <!-- inspect(card.id) to dump into anoter api to fetch card id -->
-        <img
-          class="cards"
-          v-on:click="inspect(card.id)"
-          :src="card.imageUrl"
-          :alt="card.name"
+        <div
+          class="boosterCards "
+          v-for="card in booster"
+          :key="card.id"
         >
-      </div>
 
-         <!-- i need to v-bind to apply images from results -->
-  </transition-group>
+          <!-- inspect(card.id) to dump into anoter api to fetch card id -->
+          <img
+            class="cards"
+            v-on:click="inspect(card.id)"
+            :src="card.imageUrl"
+            :alt="card.name"
+          >
+        </div>
+
+        <!-- i need to v-bind to apply images from results -->
+      </transition-group>
     </div>
-     
 
     <div
       class="inspect"
       v-if="selectedID.length != 0 "
     >
       <!-- needed the != because < or > caused some sort of false return on v-if statement -->
-      <button class="closeButton" v-on:click="close">close</button>
+      <button
+        class="closeButton"
+        v-on:click="close"
+      >close</button>
 
-      <transition name="fade"  appear>
-      <img
-        :src="selectedID.card.imageUrlHiRes"
-        :alt="selectedID.card.name"
+      <transition
+        name="fade"
+        appear
       >
+        <img
+          :src="selectedID.card.imageUrlHiRes"
+          :alt="selectedID.card.name"
+        >
       </transition>
-      
+
       <div> Name: {{selectedID.card.name}} </div>
       Set: {{selectedID.card.set}}
 
@@ -107,22 +116,28 @@ export default {
         { text: "Fossile", value: "base3" },
         { text: "Team Rocket", value: "base5" },
         { text: "Gym Heros", value: "gym1" },
-        { text: "Gym Challenge", value: "gym2" }
+        { text: "Gym Challenge", value: "gym2" },
+        { text: "Neo Genesis", value: "neo1" },
+        { text: "Neo Discovery", value: "neo2" },
+        { text: "Neo Revelation", value: "neo3" },
+        { text: "Neo Destiny", value: "neo4" }
       ]
     };
   },
 
   methods: {
-    close: function() { // when inspecting to hide rest of cards 
+    close: function() {
+      // when inspecting to hide rest of cards
       this.displayCards = true;
-      this.selectedID = []
+      this.selectedID = []; // reset selected card for new selection
     },
     inspect: function(selectedID) {
+      // object pulls from card.id in method above
       axios
         .get(`https://api.pokemontcg.io/v1/cards/${selectedID}`)
         .then(response => {
           this.selectedID = response.data;
-          this.displayCards = false;
+          this.displayCards = false; // hide booster pack and just show SelectedCard
         });
     },
 
@@ -194,15 +209,17 @@ export default {
   margin: 10px;
   width: 400px;
 }
-.closeButton{
+/* .closeButton {
   width: 5%;
   height: 15%;
-}
+} */
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to {
-  opacity: 0s
+.fade-enter,
+.fade-leave-to {
+  opacity: 0s;
 }
 </style>
