@@ -1,30 +1,31 @@
 <template>
-  <div class="container" >
-  
-    <!-- <div class="col">  im prob just gonna combine the two fire/water image and jsut set as background so i hcan have buttons in front </div> -->
-    <div class="Left">
-        <img
-        imagefluid
-        src="../assets/fire.jpg"
-        alt="fire"
-      >
-      <router-link to="/BoosterPack"> <button>Booster Pack Simulation</button></router-link>
-    </div>
+  <div class="container">
+    
+    <img class="frontPage"
+      img-fluid
+      src="../assets/Logo+Arrows.png"
+      alt="logo"
+    >
 
-    <div class="Right">
+    <div class="buttonContainer">
+      <!-- <div class="col">  im prob just gonna combine the two fire/water image and jsut set as background so i hcan have buttons in front </div> -->
+      <div class="Left">
 
-      <img
-        src="../assets/water.jpg"
-        alt="water"
-      >
-      <router-link to="/CardSearch"> <button>Pokemon Card Search </button></router-link>
+        <router-link to="/BoosterPack"> <button class="button">Booster Pack Simulation</button></router-link>
+      </div>
 
+      <div class="Right">
+
+        <router-link to="/CardSearch"> <button class="button">Pokemon Card Search </button></router-link>
+
+      </div>
     </div>
   </div>
+
 </template>
 
 <script>
-  //  import axios from 'axios';
+//  import axios from 'axios';
 export default {
   name: "HomePage",
   props: {
@@ -35,18 +36,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.container{
+  display:block;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+
+.buttonContainer{
+  display:flex;
+ 
+  justify-content: center;
+  align-items: center;
+  margin-left: 10%;
+
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.button {
+  margin: 20px;
+  width: 400px;
+  height: 150px;
 }
 </style>
