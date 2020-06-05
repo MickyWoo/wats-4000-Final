@@ -23,17 +23,17 @@
       <div class="displayCard">
 
         <div
-          class="Cards"
+          class="Cards "
           v-for="card in results.cards"
           :key="card.id"
         >
 
+         
           <img
             :src="card.imageUrl"
             :alt="card.name"
           >
-            <p> Set:  {{card.Set}} </p>
-         
+            <div> Set:  {{card.set}} </div>
           <!-- i need to v-bind to apply images from results -->
 
         </div>
@@ -76,6 +76,7 @@ export default {
       cardName: "",
       showLoading: false,
       messages: [],
+
     };
   },
 
@@ -94,6 +95,7 @@ export default {
           .then(response => {
             this.results = response.data;
             this.showLoading = false;
+    
           })
           .catch(error => {
             this.messages.push({
@@ -114,8 +116,8 @@ export default {
 
 
 <style scoped>
-.Cards div {
-  display: flex;
+.Cards {
+  display: inline-block;
 
   margin: 10px;
 }
@@ -123,7 +125,7 @@ export default {
   /* https://w3bits.com/css-image-hover-zoom/ */
   transition: transform 0.5s ease;
   transform: scale(1.5);
-  display: flex;
+  display: inline-block;  /* inline-block is key to keep uniform for each card with set name*/
   margin: 10px;
 }
 </style>

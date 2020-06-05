@@ -145,7 +145,7 @@ export default {
 
 <style scoped>
 .displayCards {
-  display: inline;
+  display: inline-block;
   margin: 10px;
 }
 </style>
