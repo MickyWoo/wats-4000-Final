@@ -19,25 +19,34 @@
       </form>
 
       <loading-spinner v-if="showLoading"></loading-spinner>
-      <div
-        class="displayCards"
-        v-for="card in results.cards"
-        :key="card.id"
-      >
 
-        <img
-          :src="card.imageUrl"
-          :alt="card.name"
+      <div class="displayCard">
+
+        <div
+          class="Cards"
+          v-for="card in results.cards"
+          :key="card.id"
         >
-        <!-- i need to v-bind to apply images from results -->
+
+          <img
+            :src="card.imageUrl"
+            :alt="card.name"
+          >
+            <p> Set:  {{card.Set}} </p>
+         
+          <!-- i need to v-bind to apply images from results -->
+
+        </div>
 
       </div>
 
     </div>
+
     <div
-      v-if="results.cards < 1"
       class="no-results"
+      v-if="results.cards < 1"
     >
+      <!-- set to < 1 to avoid inital page load error results === 0  -->
       <h2>No cards Found</h2>
       <p>Please adjust your search</p>
     </div>
@@ -55,6 +64,8 @@ import MessageContainer from "@/components/MessageContainer.vue";
 
 export default {
   name: "cardSearch",
+ 
+
   components: {
     "loading-spinner": loadingSpinner,
     "message-container": MessageContainer
@@ -64,20 +75,20 @@ export default {
       results: [],
       cardName: "",
       showLoading: false,
-      messages: []
+      messages: [],
     };
   },
 
   methods: {
-
     getCard: function() {
       this.showLoading = true;
       this.results = [];
-      if (this.cardName !== "") { // check if search has any text
+      if (this.cardName !== "") {
+        // check if search has any text
         axios
           .get(`https://api.pokemontcg.io/v1/cards?`, {
             params: {
-              name: this.cardName,
+              name: this.cardName
             }
           })
           .then(response => {
@@ -91,12 +102,11 @@ export default {
             });
             this.showLoading = false;
           });
-      } else {          // to notify user that input box is 'EMPTY'
+      } else {
+        // to notify user that input box is 'EMPTY'
         this.results.cards = 0;
-         this.showLoading = false;
+        this.showLoading = false;
       }
-    
-      
     }
   }
 };
@@ -104,15 +114,16 @@ export default {
 
 
 <style scoped>
-.displayCards {
-  display: inline;
+.Cards div {
+  display: flex;
+
   margin: 10px;
 }
-.displayCards:hover img {
+.Cards:hover img {
   /* https://w3bits.com/css-image-hover-zoom/ */
   transition: transform 0.5s ease;
   transform: scale(1.5);
-  display: inline;
+  display: flex;
   margin: 10px;
 }
 </style>

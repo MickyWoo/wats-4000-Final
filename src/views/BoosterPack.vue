@@ -30,14 +30,15 @@
 
     <div
       class="displayCards"
-      v-for="card in booster"
+      v-for="card in booster"  
       :key="card.id"
     >
 
       <img
-        :src="card.imageUrl"
+        :src="card.imageUrlHiRes"
         :alt="card.name"
       >
+   
       <!-- i need to v-bind to apply images from results -->
     </div>
 
@@ -124,9 +125,7 @@ export default {
            var randomRare = Math.floor((Math.random() * this.rareCard.length))
                this.booster.push(this.rareCard[randomRare]);
       }
-          //taking all the random generated numbers 7 common,3uncommon, 1 rare or higher and placing them into each RARITY array to pull Amount into Booster Array 
-          // and so i would pull 11 cards total and each # would get pulled and called by corresponding ID which is unique to each card. 
-          // i push to fill in the spots booster [Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,Rcommon,  Runcommon,Runcommon,Runcommon,   Rrare] < and then fill each random number with rarity
+         
 
         })
 
