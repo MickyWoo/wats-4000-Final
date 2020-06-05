@@ -27,36 +27,42 @@
       <loading-spinner v-if="showLoading"></loading-spinner>
 
     </div>
-
-    <div
-      class="displayCards" 
-      v-for="card in booster"
-      :key="card.id"
-    >
-
-      <img
-        v-on:click="inspect(card.id)"
-        :src="card.imageUrl"
-        :alt="card.name"
+    <div v-if='hideCards'>
+      <div
+        class="displayCards "
+        v-for="card in booster"
+        :key="card.id"
       >
-      </div>
-            <!-- i need to v-bind to apply images from results -->
 
-
-
-      <div class="inspect" v-if="selectedID.length != 0 " > 
-          <!-- needed the != because < or > caused some sort of false return on v-if statement -->
+        <!-- inspect(card.id) to dump into anoter api to fetch card id -->
         <img
-          :src="selectedID.card.imageUrlHiRes"
-          :alt="selectedID.card.name"
-          
+          class="cards"
+          v-on:click="inspect(card.id)"
+          :src="card.imageUrl"
+          :alt="card.name"
         >
-       <div> Name: {{selectedID.card.name}} </div>
-        Set: {{selectedID.card.set}}
-           
       </div>
+         <!-- i need to v-bind to apply images from results -->
 
     </div>
+ 
+
+    <div
+      class="inspect"
+      v-if="selectedID.length != 0 "
+    >
+      <!-- needed the != because < or > caused some sort of false return on v-if statement -->
+      <button v-on:click="close">close</button>
+      <img
+        :src="selectedID.card.imageUrlHiRes"
+        :alt="selectedID.card.name"
+      >
+      <div> Name: {{selectedID.card.name}} </div>
+      Set: {{selectedID.card.set}}
+
+    </div>
+
+  </div>
 
 </template>
 
@@ -81,6 +87,7 @@ export default {
       booster: [],
 
       showLoading: false,
+      hideCards: true,
       errors: [],
       selected: "",
 
@@ -97,12 +104,16 @@ export default {
   },
 
   methods: {
+    close: function() { // when inspecting to hide rest of cards 
+      this.hideCards = true;
+      this.selectedID = []
+    },
     inspect: function(selectedID) {
       axios
         .get(`https://api.pokemontcg.io/v1/cards/${selectedID}`)
         .then(response => {
           this.selectedID = response.data;
-          
+          this.hideCards = false;
         });
     },
 
@@ -159,9 +170,6 @@ export default {
  
 
 <style scoped>
-.hide{
-  display:none;
-}
 .displayCards {
   display: inline-block;
   margin: 10px;
