@@ -20,16 +20,18 @@
 
       <loading-spinner v-if="showLoading"></loading-spinner>
 
-      <div class="displayCard">
+      <div class="displayCard" >
 
         <div
           class="Cards "
           v-for="card in results.cards"
           :key="card.id"
         >
+        
+
 
          
-          <img
+          <img 
             :src="card.imageUrl"
             :alt="card.name"
           >
@@ -120,6 +122,9 @@ export default {
   display: inline-block;
 
   margin: 10px;
+}
+.Cards img{
+  width: 250px;
 }
 .Cards:hover img {
   /* https://w3bits.com/css-image-hover-zoom/ */
