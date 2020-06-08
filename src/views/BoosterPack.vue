@@ -36,16 +36,18 @@
         tag="div"
         appear
       >
+ 
         <div
           class="boosterCards "
           v-for="card in booster"
           :key="card.id"
         >
+       
+    <div class="Overlay" v-on:click="inspect(card.id)"> <p> INSPECT </p> </div> 
 
           <!-- inspect(card.id) to dump into anoter api to fetch card id -->
           <img
             class="cards"
-            v-on:click="inspect(card.id)"
             :src="card.imageUrl"
             :alt="card.name"
           >
@@ -54,7 +56,9 @@
         <!-- i need to v-bind to apply images from results -->
       </transition-group>
     </div>
+    <!-- BoosterPack End -->
 
+<!-- Inspection  start -->
     <div
       class="inspect"
       v-if="selectedID.length != 0 "
@@ -67,6 +71,7 @@
 
       <transition
         name="fade"
+        tag="img"
         appear
       >
         <img
@@ -195,24 +200,46 @@ export default {
 
 <style scoped>
 .boosterCards {
+  position: relative;
   display: inline-block;
   margin: 10px;
 }
 .boosterCards img {
+
   display: inline-block;
   margin: 10px;
   width: 250px;
 }
+
+
 .inspect img {
+  position: relative;
   display: inline-block;
   align-content: center;
   margin: 10px;
   width: 400px;
+  
 }
-/* .closeButton {
-  width: 5%;
-  height: 15%;
-} */
+
+.Overlay{
+  position: absolute; /* to set overlay of text */
+  bottom: 20;
+  opacity: 0;
+ transition: .5s ease;
+}
+.boosterCards:hover .Overlay{
+  
+  opacity: 1;
+   transition: opacity 1s;
+   width: 100%;
+    height: 100%;
+  background: rgba(218, 218, 218, 0.5); /* see-through */
+  font-size: 40px;
+  align-content: center;
+ 
+
+
+}
 
 .fade-enter-active,
 .fade-leave-active {
