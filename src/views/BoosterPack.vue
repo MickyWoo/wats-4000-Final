@@ -22,28 +22,22 @@
         <span> Selected: {{ selected }} </span>
         <button type="submit"> Open Booster Pack </button>
       </form>
-      <!-- end booster -->
+      <!-- end Search -->
 
       <router-link to="/cardSearch">Try Searching for A specific card</router-link>
 
       <loading-spinner v-if="showLoading"></loading-spinner>
-
     </div>
 
+ <!-- displayCards Div to allow hiding when INSPECT is clicked on -->
     <div v-if='displayCards'>
-      <transition-group
-        name='fade'
-        tag="div"
-        appear
-      >
- 
+      <transition-group name='fade' tag="div" appear>
         <div
           class="boosterCards "
           v-for="card in booster"
           :key="card.id"
-        >
-       
-    <div class="Overlay" v-on:click="inspect(card.id)"> <p> INSPECT </p> </div> 
+        >  
+    <div class="Overlay" v-on:click="inspect(card.id)"> <p> INSPECT </p> </div>   
 
           <!-- inspect(card.id) to dump into anoter api to fetch card id -->
           <img
@@ -52,22 +46,18 @@
             :alt="card.name"
           >
         </div>
-
         <!-- i need to v-bind to apply images from results -->
       </transition-group>
     </div>
+
     <!-- BoosterPack End -->
 
-<!-- Inspection  start -->
-    <div
-      class="inspect"
-      v-if="selectedID.length != 0 "
-    >
+    <!-- Inspection Card -->
+    <div class="inspect" v-if="selectedID.length != 0 ">
       <!-- needed the != because < or > caused some sort of false return on v-if statement -->
       <button
         class="closeButton"
-        v-on:click="close"
-      >close</button>
+        v-on:click="close" >close</button>
 
       <transition
         name="fade"
@@ -81,7 +71,7 @@
       </transition>
 
       <div> Name: {{selectedID.card.name}} </div>
-      Set: {{selectedID.card.set}}
+            Set: {{selectedID.card.set}}
 
     </div>
 
@@ -110,7 +100,7 @@ export default {
       booster: [],
 
       showLoading: false,
-      displayCards: true,
+      displayCards: true,  // initial set to true until clicked on to hide for Inspect
       errors: [],
       selected: "",
 
@@ -221,7 +211,7 @@ export default {
   
 }
 
-.Overlay{
+.Overlay{  /*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_image_overlay_title */
   position: absolute; /* to set overlay of text */
   bottom: 20;
   opacity: 0;
