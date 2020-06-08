@@ -37,7 +37,7 @@
           v-for="card in booster"
           :key="card.id"
         >  
-    <div class="Overlay" v-on:click="inspect(card.id)"> <img class="icon" src="../assets/magnify.png" alt="magnify-icon"> <p> INSPECT </p> </div>   
+    <div class="Overlay" v-on:click="inspect(card.id)"> <img class="icon" src="../assets/magnify.png" alt="magnify-icon"><p> INSPECT </p> </div>   
 
           <!-- inspect(card.id) to dump into anoter api to fetch card id -->
           <img
@@ -220,16 +220,16 @@ export default {
   
   opacity: 1;
    transition: opacity 1s;
-   width: 100%;
-    height: 100%;
+   /* width: 100%;
+    height: 100%; */
   background: rgba(238, 238, 238, 0.5); /* see-through */
   font-size: 25px;
   align-content: center;
 
 }
 .icon{
-  width:60%;
-  height: 50%;
+  width:30%;
+  height: 20%;
 }
 
 
