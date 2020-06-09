@@ -76,6 +76,7 @@
     </div>
 
   </div>
+   <!-- Inspection Card END -->
 
 </template>
 
@@ -135,6 +136,36 @@ export default {
           this.displayCards = false; // hide booster pack and just show SelectedCard
         });
     },
+    filterCards: function(){
+       // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
+          this.commonCard = this.results.cards.filter(
+            c => c.rarity === "Common"
+          );
+          this.uncommonCard = this.results.cards.filter(
+            c => c.rarity === "Uncommon"
+          );
+          this.rareCard = this.results.cards.filter(c => c.rarity == "Rare");
+
+    },
+    randomizeCards: function() {
+
+          for (let C = 0; C < 7; C++) {  // for 7 commons selected at random and pushed 
+            var randomCommon = Math.floor(
+              Math.random() * this.commonCard.length
+            );
+            this.booster.push(this.commonCard[randomCommon]);
+          }
+          for (let UC = 0; UC < 3; UC++) {  // for 3 Uncommons selected at random and pushed 
+            var randomUncommon = Math.floor(
+              Math.random() * this.uncommonCard.length
+            );
+            this.booster.push(this.uncommonCard[randomUncommon]);
+          }
+          for (let R = 0; R < 1; R++) { // for 1 Rare selected at random and pushed 
+            var randomRare = Math.floor(Math.random() * this.rareCard.length);
+            this.booster.push(this.rareCard[randomRare]);
+          }
+    },
 
     getCard: function() {
       this.showLoading = true;
@@ -147,39 +178,14 @@ export default {
         .then(response => {
           this.results = response.data;
           this.showLoading = false;
+          this.filterCards();
+          this.randomizeCards();
 
-          // this variable im calling c (which it knows is a card object because its coming from the allCards array) and only save the ones where c.rarity is common
-          this.commonCard = this.results.cards.filter(
-            c => c.rarity === "Common"
-          );
-          this.uncommonCard = this.results.cards.filter(
-            c => c.rarity === "Uncommon"
-          );
-          this.rareCard = this.results.cards.filter(c => c.rarity == "Rare");
-
-          //  this.booster = (this.commonCard[randomCommon], this.uncommonCard[randomUncommon], this.rareCard[randomRare] );
-
-          for (let C = 0; C < 7; C++) {
-            var randomCommon = Math.floor(
-              Math.random() * this.commonCard.length
-            );
-            this.booster.push(this.commonCard[randomCommon]);
-          }
-          for (let UC = 0; UC < 3; UC++) {
-            var randomUncommon = Math.floor(
-              Math.random() * this.uncommonCard.length
-            );
-            this.booster.push(this.uncommonCard[randomUncommon]);
-          }
-          for (let R = 0; R < 1; R++) {
-            var randomRare = Math.floor(Math.random() * this.rareCard.length);
-            this.booster.push(this.rareCard[randomRare]);
-          }
         })
 
         .catch(error => {
           this.errors.push(error);
-          this.showLoading = false; // this.showLoading = false outside of the tryCatch block, so no matter what it is registering showLoading as false
+          this.showLoading = false; // this.showLoading = false was outside of the tryCatch block, so no matter what i did it is registering showLoading as false
         });
     }
   }
