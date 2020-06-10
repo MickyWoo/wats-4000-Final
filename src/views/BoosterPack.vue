@@ -153,19 +153,24 @@ export default {
             var randomCommon = Math.floor(
               Math.random() * this.commonCard.length
             );
+            
             this.booster.push(this.commonCard[randomCommon]);
+            this.commonCard.splice(randomCommon,1);  //after inserting the card, I instantly remove it for Selection to prevent Duplicates /https://www.w3schools.com/js/js_array_methods.asp
           }
           for (let UC = 0; UC < 3; UC++) {  // for 3 Uncommons selected at random and pushed 
             var randomUncommon = Math.floor(
               Math.random() * this.uncommonCard.length
             );
             this.booster.push(this.uncommonCard[randomUncommon]);
+            this.uncommonCard.splice(randomUncommon,1);
           }
           for (let R = 0; R < 1; R++) { // for 1 Rare selected at random and pushed 
             var randomRare = Math.floor(Math.random() * this.rareCard.length);
             this.booster.push(this.rareCard[randomRare]);
           }
     },
+    
+
 
     getCard: function() {
       this.showLoading = true;
