@@ -30,7 +30,7 @@
       
     </div>
     <div  class="no-selectedID"
-      v-if="selectedCheck "
+      v-if="setNotChosen "
     > 
        <h2>No cards Found</h2>
       <p>Please Choose a SET</p>
@@ -113,7 +113,7 @@ export default {
       displayCards: true,  // initial set to true until clicked on to hide for Inspect
       errors: [],
       selected: "",
-      selectedCheck: false,
+      setNotChosen: false,
 
       selectedID: [],
       setsAvaliable: [
@@ -180,18 +180,18 @@ export default {
           }
     },
     
-    doubleCheckSelected: function() {
+    setNotSelected: function() {
       this.showLoading = false;
-        this.selectedCheck= true;
+        this.setNotChosen= true;
     },
 
 
     getCard: function() {
-      this.selectedCheck= false;
+      this.setNotChosen= false;
       this.showLoading = true;
       this.booster = []; // reset booster to empty slate for new pack opening.
       this.selectedID = [];
-  if (this.selected !== "") {
+  if (this.selected !== "") {  // checks if a SET is CHOSEN if not goes into else statement.
       axios
         .get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
 
@@ -209,7 +209,7 @@ export default {
         });
       
       }else {
-        this.doubleCheckSelected();  
+        this.setNotSelected();  
       }
     }
   }
