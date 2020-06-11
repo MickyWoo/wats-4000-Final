@@ -8,7 +8,7 @@
       <p> Each pack is set to have 7 common, 3 uncommon, and 1 Rare As standard Booster Packs Contained. </p>
       <form v-on:submit.prevent="getCard">
 
-        <select v-model="selected">
+        <select v-model="selected" >
           <!--  https://vuejs.org/v2/guide/forms.html -->
 
           <option
@@ -27,6 +27,13 @@
       <router-link to="/cardSearch">Try Searching for A specific card</router-link>
 
       <loading-spinner v-if="showLoading"></loading-spinner>
+      
+    </div>
+    <div  class="no-selectedID"
+      v-if="selectedCheck "
+    > 
+       <h2>No cards Found</h2>
+      <p>Please Choose a SET</p>
     </div>
 
  <!-- displayCards Div to allow hiding when INSPECT is clicked on -->
@@ -75,6 +82,8 @@
 
     </div>
 
+  
+
   </div>
    <!-- Inspection Card END -->
 
@@ -99,11 +108,12 @@ export default {
       rareCard: [],
       // a 4th array to assort random from each of the 3 assorted arrays by Rarity
       booster: [],
-
+      
       showLoading: false,
       displayCards: true,  // initial set to true until clicked on to hide for Inspect
       errors: [],
       selected: "",
+      selectedCheck: false,
 
       selectedID: [],
       setsAvaliable: [
@@ -170,13 +180,18 @@ export default {
           }
     },
     
+    doubleCheckSelected: function() {
+      this.showLoading = false;
+        this.selectedCheck= true;
+    },
 
 
     getCard: function() {
+      this.selectedCheck= false;
       this.showLoading = true;
       this.booster = []; // reset booster to empty slate for new pack opening.
       this.selectedID = [];
-
+  if (this.selected !== "") {
       axios
         .get(`https://api.pokemontcg.io/v1/cards?setCode=${this.selected}`)
 
@@ -192,6 +207,10 @@ export default {
           this.errors.push(error);
           this.showLoading = false; // this.showLoading = false was outside of the tryCatch block, so no matter what i did it is registering showLoading as false
         });
+      
+      }else {
+        this.doubleCheckSelected();  
+      }
     }
   }
 };
